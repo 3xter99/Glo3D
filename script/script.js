@@ -116,13 +116,13 @@ window.addEventListener('DOMContentLoaded', () => {
         let popupInterval;
         let popupAnimate = () => {
             popup.style.left = '0%'
-            popupContent.style.left = '-100%'
+            // popupContent.style.left = '400px'
             popup.style.display = 'block';
             const popupClick = () => {
                 popupInterval = requestAnimationFrame(popupClick)
-                count += 1
-                if (count < 38) {
-                    popupContent.style.left = count + '%'
+                count += 20
+                if (count < (screen.width/2 - (popupContent.getBoundingClientRect().width/2) + 50)) {
+                    popupContent.style.left = count + 'px'
                 } else cancelAnimationFrame(popupInterval)
             }
             popupClick()
@@ -132,8 +132,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         popupBtn.forEach(elem => {
             elem.addEventListener('click', () => {
-                if (screen.width < 10000) {
-
+                if (screen.width < 768) {
                     popup.style.display = 'block';
                     popupContent.style.left = `${screen.width/2 - (popupContent.getBoundingClientRect().width/2) + 50}px`
                     console.log(popupContent.getBoundingClientRect());
