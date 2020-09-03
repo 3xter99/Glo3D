@@ -43,14 +43,23 @@ window.addEventListener('DOMContentLoaded', () => {
     countTimer('02 september 2020');
 
 // Меню
+//    анимация меню
     let menuInterval;
-    let menuAnimate = (scrollMenu) => {
+    let menuAnimate = (hash) => {
         let count = 0
         const menuClick = () => {
             menuInterval = requestAnimationFrame(menuClick)
-            count += 15
-            if (count < scrollMenu) {
-                scrollTo(0, count)
+            let x = 15
+            if (count < 825 &&  hash === '#service-block') {
+                scrollTo(0, count += x)
+            } else if (count < 2031 &&  hash === '#portfolio') {
+                scrollTo(0, count += x * 2)
+            } else if (count < 3004.5 &&  hash === '#calc') {
+                scrollTo(0, count += x * 2.5 )
+            } else if (count < 4140 &&  hash === '#command') {
+                scrollTo(0, count += x * 3)
+            } else if (count < 5046 &&  hash === '#connect') {
+                scrollTo(0, count += x * 3.5)
             } else cancelAnimationFrame(menuInterval)
         }
         menuClick()
@@ -60,7 +69,10 @@ window.addEventListener('DOMContentLoaded', () => {
         const btnMenu = document.querySelector('.menu'),
             menu = document.querySelector('menu'),
             closeBtn = document.querySelector('.close-btn'),
-            menuItems = menu.querySelectorAll('ul>li');
+            menuItems = menu.querySelectorAll('ul>li'),
+            scrollBtn = document.querySelector('a')
+        console.log(scrollBtn)
+
 
 
         const handlerMenu = () => {
@@ -71,27 +83,14 @@ window.addEventListener('DOMContentLoaded', () => {
         closeBtn.addEventListener('click', handlerMenu)
 
 
+        scrollBtn.addEventListener('click', (event) => {
+            console.dir(event.target)
+            menuAnimate('#service-block')
+        })
 
 
         menuItems.forEach((element) => element.addEventListener('click', (event) => {
-            console.log(event.target.hash);
-            let scrollMenu
-            if (event.target.hash === '#service-block') {
-                scrollMenu = 825
-            }
-            if (event.target.hash === '#portfolio') {
-                scrollMenu = 2031
-            }
-            if (event.target.hash === '#calc') {
-                scrollMenu = 3004.5
-            }
-            if (event.target.hash === '#command') {
-                scrollMenu = 4140
-            }
-            if (event.target.hash === '#connect') {
-                scrollMenu = 5046
-            }
-            menuAnimate(scrollMenu)
+            menuAnimate(event.target.hash)
             handlerMenu()
         }))
     }
