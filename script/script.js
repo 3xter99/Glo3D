@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
 
 
-    // Time
+    // 1) _________Time
 
     const countTimer = (deadline) => {
 
@@ -41,40 +41,25 @@ window.addEventListener('DOMContentLoaded', () => {
         updateClock();
     }
     countTimer('02 september 2020');
-
-// Меню
-//    анимация меню
+//___________________________конец time
 
 
+// 2)________Меню_____________
+
+//  _________анимация меню____
     const toggleMenu = () => {
-        const btnMenu = document.querySelector('.menu'),
-            menu = document.querySelector('menu'),
-            closeBtn = document.querySelector('.close-btn'),
-            menuItems = menu.querySelectorAll('ul>li'),
-            scrollBtn = document.querySelector('a')
-        console.log(scrollBtn)
-
-
+        const menu = document.querySelector('menu'),
+            body = document.querySelector('body')
 
         const handlerMenu = () => {
             menu.classList.toggle('active-menu')
         }
 
-        btnMenu.addEventListener('click', handlerMenu)
-        closeBtn.addEventListener('click', handlerMenu)
-
-
-        scrollBtn.addEventListener('click', (event) => {
-            console.dir(event.target)
-            menuAnimate('#service-block')
-        })
-
-
-        let menuInterval;
+        //________Анимация меню_______
         let menuAnimate = (hash) => {
             let count = 0
             const menuClick = () => {
-                menuInterval = requestAnimationFrame(menuClick)
+                let menuInterval = requestAnimationFrame(menuClick)
                 let x = 15
                 if (count < 825 &&  hash === '#service-block') {
                     scrollTo(0, count += x * 1.5)
@@ -91,35 +76,37 @@ window.addEventListener('DOMContentLoaded', () => {
             menuClick()
         }
 
-
-        menuItems.forEach((element) => element.addEventListener('click', (event) => {
-            menuAnimate(event.target.hash)
-            handlerMenu()
-        }))
+        body.addEventListener('click', event => {
+            console.log(event.target);
+            let target = event.target;
+            if (target.classList.contains('close-btn')) {
+                handlerMenu()
+            } else if (target.closest('ul>li')) {
+                menuAnimate(event.target.hash)
+                handlerMenu()
+            } else if (target.closest('.menu')) {
+                handlerMenu()
+            } else if (target.closest('.scroll_btn')) {
+                menuAnimate('#service-block')
+            }
+        })
     }
 
     toggleMenu()
 
-//   Popup
+//  3) _________Popup_________-
     const togglePopUp = () => {
         const popup = document.querySelector('.popup')
         const popupBtn = document.querySelectorAll('.popup-btn')
-        const popupClose = document.querySelector('.popup-close')
         const popupContent = document.querySelector('.popup-content')
         let count = 0
 
-
-
-
-
-
-        let popupInterval;
+        //анимация модального окна
         let popupAnimate = () => {
             popup.style.left = '0%'
-            // popupContent.style.left = '400px'
             popup.style.display = 'block';
             const popupClick = () => {
-                popupInterval = requestAnimationFrame(popupClick)
+                let popupInterval = requestAnimationFrame(popupClick)
                 count += 20
                 if (count < (screen.width/2 - (popupContent.getBoundingClientRect().width/2) + 50)) {
                     popupContent.style.left = count + 'px'
@@ -128,10 +115,9 @@ window.addEventListener('DOMContentLoaded', () => {
             popupClick()
         }
 
-
-
         popupBtn.forEach(elem => {
             elem.addEventListener('click', () => {
+                //___проверка и отключение анимации если экран меньше 768px
                 if (screen.width < 768) {
                     popup.style.display = 'block';
                     popupContent.style.left = `${screen.width/2 - (popupContent.getBoundingClientRect().width/2) + 50}px`
@@ -143,13 +129,62 @@ window.addEventListener('DOMContentLoaded', () => {
             })
         })
 
-        popupClose.addEventListener('click', () => {
-            // popupContent.style.left = '-100%'
-            popup.style.display = 'none';
-            count = 0
+        popup.addEventListener('click', (event) => {
+            let target = event.target;
+
+            if (target.classList.contains('popup-close')) {
+                popup.style.display = 'none'
+                count = 0
+            } else {
+                target = target.closest('.popup-content')
+                if (!target) {
+                    popup.style.display = 'none'
+                    count = 0
+                }
+            }
         })
     }
-
     togglePopUp()
+
+// 4) _______Табы________-
+
+const tabs = () => {
+    const tabHeader = document.querySelector('.service-header'),
+        tab = tabHeader.querySelectorAll('.service-header-tab'),
+        tabContent = document.querySelectorAll('.service-tab');
+
+    const toggleTabContent = (index) => {
+        for (let i = 0; i < tabContent.length; i++) {
+            if (index === i) {
+                tab[i].classList.add('active')
+                tabContent[i].classList.remove('d-none')
+            } else {
+                tabContent[i].classList.add('d-none')
+                tab[i].classList.remove('active')
+            }
+        }
+    }
+
+    tabHeader.addEventListener('click', (event) => {
+
+        let target = event.target;
+            target = target.closest('.service-header-tab');
+
+        if (target) {
+            tab.forEach((item, i) => {
+                if (item === target) {
+                    toggleTabContent(i)
+                }
+            })
+        }
+    })
+}
+tabs()
+
+
+
+
+
+
 
 });
