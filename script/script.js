@@ -77,15 +77,15 @@ window.addEventListener('DOMContentLoaded', () => {
                 menuInterval = requestAnimationFrame(menuClick)
                 let x = 15
                 if (count < 825 &&  hash === '#service-block') {
-                    scrollTo(0, count += x)
+                    scrollTo(0, count += x * 1.5)
                 } else if (count < 2031 &&  hash === '#portfolio') {
-                    scrollTo(0, count += x * 2)
+                    scrollTo(0, count += x * 2.5)
                 } else if (count < 3004.5 &&  hash === '#calc') {
-                    scrollTo(0, count += x * 2.5 )
+                    scrollTo(0, count += x * 3.5 )
                 } else if (count < 4140 &&  hash === '#command') {
-                    scrollTo(0, count += x * 3)
+                    scrollTo(0, count += x * 4.5)
                 } else if (count < 5046 &&  hash === '#connect') {
-                    scrollTo(0, count += x * 3.5)
+                    scrollTo(0, count += x * 5.5)
                 } else cancelAnimationFrame(menuInterval)
             }
             menuClick()
@@ -112,6 +112,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 
+
         let popupInterval;
         let popupAnimate = () => {
             popup.style.left = '0%'
@@ -131,8 +132,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
         popupBtn.forEach(elem => {
             elem.addEventListener('click', () => {
-                if (screen.width < 1000) {
+                if (screen.width < 10000) {
+
                     popup.style.display = 'block';
+                    popupContent.style.left = `${screen.width/2 - (popupContent.getBoundingClientRect().width/2) + 50}px`
+                    console.log(popupContent.getBoundingClientRect());
                 } else {
                     popupAnimate()
                 }
@@ -148,10 +152,5 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     togglePopUp()
-
-
-
-
-
 
 });
