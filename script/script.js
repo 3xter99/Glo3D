@@ -44,26 +44,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // Меню
 //    анимация меню
-    let menuInterval;
-    let menuAnimate = (hash) => {
-        let count = 0
-        const menuClick = () => {
-            menuInterval = requestAnimationFrame(menuClick)
-            let x = 15
-            if (count < 825 &&  hash === '#service-block') {
-                scrollTo(0, count += x)
-            } else if (count < 2031 &&  hash === '#portfolio') {
-                scrollTo(0, count += x * 2)
-            } else if (count < 3004.5 &&  hash === '#calc') {
-                scrollTo(0, count += x * 2.5 )
-            } else if (count < 4140 &&  hash === '#command') {
-                scrollTo(0, count += x * 3)
-            } else if (count < 5046 &&  hash === '#connect') {
-                scrollTo(0, count += x * 3.5)
-            } else cancelAnimationFrame(menuInterval)
-        }
-        menuClick()
-    }
+
 
     const toggleMenu = () => {
         const btnMenu = document.querySelector('.menu'),
@@ -87,6 +68,28 @@ window.addEventListener('DOMContentLoaded', () => {
             console.dir(event.target)
             menuAnimate('#service-block')
         })
+
+
+        let menuInterval;
+        let menuAnimate = (hash) => {
+            let count = 0
+            const menuClick = () => {
+                menuInterval = requestAnimationFrame(menuClick)
+                let x = 15
+                if (count < 825 &&  hash === '#service-block') {
+                    scrollTo(0, count += x)
+                } else if (count < 2031 &&  hash === '#portfolio') {
+                    scrollTo(0, count += x * 2)
+                } else if (count < 3004.5 &&  hash === '#calc') {
+                    scrollTo(0, count += x * 2.5 )
+                } else if (count < 4140 &&  hash === '#command') {
+                    scrollTo(0, count += x * 3)
+                } else if (count < 5046 &&  hash === '#connect') {
+                    scrollTo(0, count += x * 3.5)
+                } else cancelAnimationFrame(menuInterval)
+            }
+            menuClick()
+        }
 
 
         menuItems.forEach((element) => element.addEventListener('click', (event) => {
