@@ -50,6 +50,7 @@ const updateClock = () => {
             closeBtn = document.querySelector('.close-btn'),
             menuItems = menu.querySelectorAll('ul>li');
 
+
         const handlerMenu = () => {
             menu.classList.toggle('active-menu')
         }
@@ -63,7 +64,54 @@ const updateClock = () => {
 
     toggleMenu()
 
-//   Popup 16:31
+//   Popup
+    const togglePopUp = () => {
+        const popup = document.querySelector('.popup')
+        const popupBtn = document.querySelectorAll('.popup-btn')
+        const popupClose = document.querySelector('.popup-close')
+        const popupContent = document.querySelector('.popup-content')
+        let count = 0
+
+
+
+
+
+        let popupInterval;
+        let popupAnimate = () => {
+            popup.style.left = '0%'
+            popupContent.style.left = '-100%'
+            popup.style.display = 'block';
+            const popupClick = () => {
+                popupInterval = requestAnimationFrame(popupClick)
+                count += 1
+                if (count < 38) {
+                    popupContent.style.left = count + '%'
+                } else cancelAnimationFrame(popupInterval)
+            }
+            popupClick()
+            }
+
+
+
+        popupBtn.forEach(elem => {
+            elem.addEventListener('click', () => {
+                if (screen.width < 1000) {
+                    popup.style.display = 'block';
+                } else {
+                    popupAnimate()
+                }
+
+            })
+        })
+
+        popupClose.addEventListener('click', () => {
+            // popupContent.style.left = '-100%'
+            popup.style.display = 'none';
+            count = 0
+        })
+    }
+
+    togglePopUp()
 
 
 
