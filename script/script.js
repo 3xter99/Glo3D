@@ -3,39 +3,39 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Time
 
-const countTimer = (deadline) => {
+    const countTimer = (deadline) => {
 
         const timerHours = document.querySelector('#timer-hours'),
             timerMinutes = document.querySelector('#timer-minutes'),
             timerSeconds = document.querySelector('#timer-seconds');
 
-    const addZero = n => n < 10 ? '0' + n : n
+        const addZero = n => n < 10 ? '0' + n : n
 
-const getTimeRemaining = () => {
-    let dateStop = new Date(deadline).getTime(),
-        dateNow = new Date().getTime(),
-        timeRemaining = (dateStop - dateNow) / 1000,
+        const getTimeRemaining = () => {
+            let dateStop = new Date(deadline).getTime(),
+                dateNow = new Date().getTime(),
+                timeRemaining = (dateStop - dateNow) / 1000,
 
-        seconds = Math.floor(timeRemaining % 60),
-        minutes = Math.floor((timeRemaining / 60) % 60),
-        hours = Math.floor(timeRemaining / 60 / 60);
-    return {timeRemaining, hours, minutes, seconds }
-}
-
-const updateClock = () => {
-        let timer = getTimeRemaining();
-        timerHours.textContent = addZero(timer.hours);
-        timerMinutes.textContent = addZero(timer.minutes);
-        timerSeconds.textContent = addZero(timer.seconds);
-
-        if (timer.timeRemaining <= 0) {
-            clearInterval(idInterval)
-            timerHours.textContent = addZero(0);
-            timerMinutes.textContent = addZero(0);
-            timerSeconds.textContent = addZero(0);
+                seconds = Math.floor(timeRemaining % 60),
+                minutes = Math.floor((timeRemaining / 60) % 60),
+                hours = Math.floor(timeRemaining / 60 / 60);
+            return {timeRemaining, hours, minutes, seconds }
         }
 
-    }
+        const updateClock = () => {
+            let timer = getTimeRemaining();
+            timerHours.textContent = addZero(timer.hours);
+            timerMinutes.textContent = addZero(timer.minutes);
+            timerSeconds.textContent = addZero(timer.seconds);
+
+            if (timer.timeRemaining <= 0) {
+                clearInterval(idInterval)
+                timerHours.textContent = addZero(0);
+                timerMinutes.textContent = addZero(0);
+                timerSeconds.textContent = addZero(0);
+            }
+
+        }
         let idInterval = setInterval(updateClock, 1000)
 
         updateClock();
@@ -43,6 +43,18 @@ const updateClock = () => {
     countTimer('02 september 2020');
 
 // Меню
+    let menuInterval;
+    let menuAnimate = (scrollMenu) => {
+        let count = 0
+        const menuClick = () => {
+            menuInterval = requestAnimationFrame(menuClick)
+            count += 15
+            if (count < scrollMenu) {
+                scrollTo(0, count)
+            } else cancelAnimationFrame(menuInterval)
+        }
+        menuClick()
+    }
 
     const toggleMenu = () => {
         const btnMenu = document.querySelector('.menu'),
@@ -59,7 +71,29 @@ const updateClock = () => {
         closeBtn.addEventListener('click', handlerMenu)
 
 
-        menuItems.forEach((element) => element.addEventListener('click', handlerMenu))
+
+
+        menuItems.forEach((element) => element.addEventListener('click', (event) => {
+            console.log(event.target.hash);
+            let scrollMenu
+            if (event.target.hash === '#service-block') {
+                scrollMenu = 825
+            }
+            if (event.target.hash === '#portfolio') {
+                scrollMenu = 2031
+            }
+            if (event.target.hash === '#calc') {
+                scrollMenu = 3004.5
+            }
+            if (event.target.hash === '#command') {
+                scrollMenu = 4140
+            }
+            if (event.target.hash === '#connect') {
+                scrollMenu = 5046
+            }
+            menuAnimate(scrollMenu)
+            handlerMenu()
+        }))
     }
 
     toggleMenu()
@@ -89,7 +123,7 @@ const updateClock = () => {
                 } else cancelAnimationFrame(popupInterval)
             }
             popupClick()
-            }
+        }
 
 
 
