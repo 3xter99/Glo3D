@@ -197,6 +197,7 @@ const tabs = () => {
                 li.classList.add('dot')
                 allDots.append(li)
             })
+
         }
         addDots()
         let dot = document.querySelectorAll('.dot')
@@ -287,6 +288,45 @@ const tabs = () => {
 
     }
     slider()
+
+
+//    Смена фото у команды
+    let changePhoto = () => {
+        const commandPhoto = document.querySelectorAll('.command__photo');
+
+        commandPhoto.forEach((item) => {
+            item.addEventListener('mouseenter', (event) => {
+                console.log(event.target.dataset.img);
+                let a = event.target.src
+                event.target.src = event.target.dataset.img
+                event.target.dataset.img = a
+            })
+        })
+        commandPhoto.forEach((item) => {
+            item.addEventListener('mouseout', (event) => {
+                let a = event.target.src
+                event.target.src = event.target.dataset.img
+                event.target.dataset.img = a
+            })
+        })
+
+    }
+    changePhoto()
+
+
+//    Запрет ввода букв
+    const inputNumbers = () => {
+        let calcSCD = document.querySelectorAll('input.calc-item');
+        // console.log(calcSCD)
+        calcSCD.forEach((item) => {
+            item.addEventListener('input', () => {
+                item.value = item.value.replace(/[^0-9]/, '');
+            })
+
+        })
+    }
+    inputNumbers()
+
 
 
 
