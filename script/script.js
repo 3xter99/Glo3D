@@ -75,9 +75,8 @@ window.addEventListener('DOMContentLoaded', () => {
             }
             menuClick()
         }
-        // Общий обработчик событий для меню, close, скрола
+        // Общий обработчик событий для меню, close, скролла
         body.addEventListener('click', event => {
-            console.log(event.target);
             let target = event.target;
             if (target.classList.contains('close-btn')) {
                 handlerMenu()
@@ -121,7 +120,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (screen.width < 768) {
                     popup.style.display = 'block';
                     popupContent.style.left = `${screen.width/2 - (popupContent.getBoundingClientRect().width/2) + 50}px`
-                    console.log(popupContent.getBoundingClientRect());
                 } else {
                     popupAnimate()
                 }
@@ -296,17 +294,12 @@ const tabs = () => {
 
         commandPhoto.forEach((item) => {
             item.addEventListener('mouseenter', (event) => {
-                console.log(event.target.dataset.img);
-                let a = event.target.src
-                event.target.src = event.target.dataset.img
-                event.target.dataset.img = a
+                [event.target.dataset.img, event.target.src] = [event.target.src, event.target.dataset.img]
             })
         })
         commandPhoto.forEach((item) => {
             item.addEventListener('mouseout', (event) => {
-                let a = event.target.src
-                event.target.src = event.target.dataset.img
-                event.target.dataset.img = a
+                [event.target.dataset.img, event.target.src] = [event.target.src, event.target.dataset.img]
             })
         })
 
@@ -317,7 +310,6 @@ const tabs = () => {
 //    Запрет ввода букв
     const inputNumbers = () => {
         let calcSCD = document.querySelectorAll('input.calc-item');
-        // console.log(calcSCD)
         calcSCD.forEach((item) => {
             item.addEventListener('input', () => {
                 item.value = item.value.replace(/[^0-9]/, '');
