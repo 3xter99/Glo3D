@@ -350,21 +350,31 @@ const tabs = () => {
 
             if (typeValue && squareValue) {
                 total = price * typeValue * squareValue * countValue * dayValue;
+
             }
+            let count = 0
+            function animationCalc() {
+                let step = total / 31
+                if (count >= total) {
+                    clearInterval(idInterval)
+                    totalValue.textContent = Math.round(total)
+                } else {
+                    count += step
+                    totalValue.textContent = Math.round(count)
+                }
 
-            totalValue.textContent = total
+            }
+            let idInterval = setInterval(animationCalc, 30)
+
+            animationCalc();
+
         }
-
-
-
         calcBlock.addEventListener('change', (event) => {
             const target = event.target;
 
             if (target.matches('select') || target.matches('input')) {
                 countSum()
             }
-
-
         })
 
     }
