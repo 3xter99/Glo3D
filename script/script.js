@@ -352,6 +352,8 @@ const tabs = () => {
                 total = price * typeValue * squareValue * countValue * dayValue;
 
             }
+
+            // Анимация чисел в калькуляторе_____________________
             let count = 0
             function animationCalc() {
                 let step = total / 31
@@ -367,6 +369,7 @@ const tabs = () => {
             let idInterval = setInterval(animationCalc, 30)
 
             animationCalc();
+        //    _______________________
 
         }
         calcBlock.addEventListener('change', (event) => {
