@@ -109,7 +109,7 @@ class Validator {
             this.pattern.email = /^\w+@\w+.\w{2,}$/
         }
         if (!this.pattern.name) {
-            this.pattern.name = /[^A-Za-z]/
+            this.pattern.name = /[^A-Za-z0-9]/
         }
         if (!this.pattern.message) {
             this.pattern.message = /^([А-Яа-яё]+\s?)+[^A-Za-z]$/
