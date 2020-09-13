@@ -383,78 +383,78 @@ const tabs = () => {
     }
     calc(100)
 
-    const mainForm = new Validator({
-        selector: '#form1',
-        pattern: {
-            phone: /^\+380\d{9}$/
-        },
-        method: {
-            'form1-phone': [
-                ['notEmpty'],
-                ['pattern', 'phone']
-            ],
-            'form1-email': [
-                ['notEmpty'],
-                ['pattern', 'email']
-            ],
-            'form1-name': [
-                ['notEmpty'],
-                ['pattern', 'name']
-            ]
+
+    const sendForm = (id, color) => {
+        const errorMessage = 'Что то пошла не так...',
+            loadMessage = 'Загрузка...',
+            successMessage = 'Спасибо! Мы скоро с Вами свяжемся'
+
+        const form = document.getElementById(`${id}`)
+        let userName = document.getElementsByName('user_name')
+        let userEmail = document.getElementsByName('user_email')
+        let userPhone = document.getElementsByName('user_phone')
+        let userMessage = document.getElementsByName('user_message')
+        form.addEventListener('input', (event) => {
+            const target = event.target
+            if (target.name === 'user_phone') {
+                target.value = target.value.replace(/[^0-9\+]/, '')
+            }
+            if (target.name === 'user_message' || target.name === 'user_name') {
+                target.value = target.value.replace(/[^А-Яа-я\s]/, '')
+            }
+        })
+
+        const statusMessage = document.createElement('div')
+        statusMessage.style.cssText = `font-size: 2rem; color: ${color}`
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault()
+            form.appendChild(statusMessage)
+            statusMessage.textContent = loadMessage
+
+            const formDara = new FormData(form)
+            let body = {}
+
+            formDara.forEach((val, key) => {
+                body[key] = val
+            })
+            postData(body, () => {
+                statusMessage.textContent = successMessage
+            }, (error) => {
+                statusMessage.textContent = errorMessage
+                console.error(error)
+            })
+        })
+
+        const postData = (body, outputData, errorData) => {
+            const request = new XMLHttpRequest()
+            request.addEventListener('readystatechange', () => {
+
+                if (request.readyState !== 4) {
+                    return
+                }
+                if (request.status === 200) {
+                    outputData()
+                    userName.forEach(item => item.value = '')
+                    userEmail.forEach(item => item.value = '')
+                    userPhone.forEach(item => item.value = '')
+                    userMessage.forEach(item => item.value = '')
+                } else {
+                    errorData(request.status)
+                }
+            })
+
+
+            request.open('POST', './server.php')
+            request.setRequestHeader('Content-Type', 'application/json')
+
+            request.send(JSON.stringify(body))
         }
-    });
 
-    mainForm.init();
-
-    const footerForm = new Validator({
-        selector: '#form2',
-        pattern: {
-            phone: /^\+380\d{9}$/
-        },
-        method: {
-            'form2-phone': [
-                ['notEmpty'],
-                ['pattern', 'phone']
-            ],
-            'form2-email': [
-                ['notEmpty'],
-                ['pattern', 'email']
-            ],
-            'form2-name': [
-                ['notEmpty'],
-                ['pattern', 'name']
-            ],
-            'form2-message': [
-                ['notEmpty'],
-                ['pattern', 'message']
-            ]
-        }
-    });
-
-    footerForm.init();
-
-    const popupForm = new Validator({
-        selector: '#form3',
-        pattern: {
-            phone: /^\+380\d{9}$/
-        },
-        method: {
-            'form3-phone': [
-                ['notEmpty'],
-                ['pattern', 'phone']
-            ],
-            'form3-email': [
-                ['notEmpty'],
-                ['pattern', 'email']
-            ],
-            'form3-name': [
-                ['notEmpty'],
-                ['pattern', 'name']
-            ]
-        }
-    });
-
-    popupForm.init();
+    }
+    sendForm('form1')
+    sendForm('form2')
+    sendForm('form3', 'white')
 
 
 
