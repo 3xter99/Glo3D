@@ -420,6 +420,9 @@ const tabs = () => {
             })
             postData(body, () => {
                 statusMessage.textContent = successMessage
+                setTimeout(() => {
+                    statusMessage.textContent = ''
+                }, 4000)
             }, (error) => {
                 statusMessage.textContent = errorMessage
                 console.error(error)
