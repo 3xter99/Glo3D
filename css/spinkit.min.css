@@ -7,7 +7,8 @@
     right: 0;
     bottom: 0;
     /* фоновый цвет элемента */
-    background: #e0e0e0;
+    background: #e0e0e0 opacity: 0.5;
+    /*opacity: 0.5;*/
     /* размещаем блок над всеми элементами на странице (это значение должно быть больше, чем у любого другого позиционированного элемента на странице) */
     z-index: 1001;
 }
@@ -28,7 +29,8 @@
     position: absolute;
     display: inline-block;
     top: 0;
-    background-color: #337ab7;
+    /*background-color: #337ab7;*/
+    background-color: #ffffff;
     border-radius: 100%;
     width: 35px;
     height: 35px;
