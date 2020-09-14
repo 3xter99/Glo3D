@@ -394,6 +394,7 @@ const tabs = () => {
         let userEmail = document.getElementsByName('user_email')
         let userPhone = document.getElementsByName('user_phone')
         let userMessage = document.getElementsByName('user_message')
+        const preloader = document.querySelector('.preloader')
         form.addEventListener('input', (event) => {
             const target = event.target
             if (target.name === 'user_phone') {
@@ -410,7 +411,7 @@ const tabs = () => {
         form.addEventListener('submit', (event) => {
             event.preventDefault()
             form.appendChild(statusMessage)
-            statusMessage.textContent = loadMessage
+            preloader.classList.remove('loaded')
 
             const formDara = new FormData(form)
             let body = {}
@@ -437,12 +438,16 @@ const tabs = () => {
                     return
                 }
                 if (request.status === 200) {
+                    preloader.classList.add('loaded')
                     outputData()
+
+
                     userName.forEach(item => item.value = '')
                     userEmail.forEach(item => item.value = '')
                     userPhone.forEach(item => item.value = '')
                     userMessage.forEach(item => item.value = '')
                 } else {
+                    preloader.classList.add('loaded')
                     errorData(request.status)
                 }
             })
