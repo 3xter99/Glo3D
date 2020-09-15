@@ -419,18 +419,30 @@ const tabs = () => {
             formDara.forEach((val, key) => {
                 body[key] = val
             })
-            postData(body, () => {
-                statusMessage.textContent = successMessage
-                setTimeout(() => {
-                    statusMessage.textContent = ''
-                }, 4000)
-            }, (error) => {
-                statusMessage.textContent = errorMessage
-                console.error(error)
-            })
+            // postData(body, () => {
+            //     statusMessage.textContent = successMessage
+            //     setTimeout(() => {
+            //         statusMessage.textContent = ''
+            //     }, 4000)
+            // }, (error) => {
+            //     statusMessage.textContent = errorMessage
+            //     console.error(error)
+            // })
+            postData(body)
+                .then(() => {
+                    statusMessage.textContent = successMessage
+                        setTimeout(() => {
+                            statusMessage.textContent = ''
+                        }, 4000)
+                })
+                .catch(error => {
+                        statusMessage.textContent = errorMessage
+                        console.error(error)
+                })
         })
 
-        const postData = (body, outputData, errorData) => {
+        const postData = (body) => {
+        return new Promise((resolve, reject) => {
             const request = new XMLHttpRequest()
             request.addEventListener('readystatechange', () => {
 
@@ -439,16 +451,16 @@ const tabs = () => {
                 }
                 if (request.status === 200) {
                     preloader.classList.add('loaded')
-                    outputData()
 
 
                     userName.forEach(item => item.value = '')
                     userEmail.forEach(item => item.value = '')
                     userPhone.forEach(item => item.value = '')
                     userMessage.forEach(item => item.value = '')
+                    resolve()
                 } else {
                     preloader.classList.add('loaded')
-                    errorData(request.status)
+                    reject(request.status)
                 }
             })
 
@@ -457,6 +469,8 @@ const tabs = () => {
             request.setRequestHeader('Content-Type', 'application/json')
 
             request.send(JSON.stringify(body))
+        });
+
         }
 
     }
@@ -467,8 +481,7 @@ const tabs = () => {
 
 
 
-
-
+    
 
 
 
