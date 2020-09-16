@@ -419,58 +419,37 @@ const tabs = () => {
             formDara.forEach((val, key) => {
                 body[key] = val
             })
-            // postData(body, () => {
-            //     statusMessage.textContent = successMessage
-            //     setTimeout(() => {
-            //         statusMessage.textContent = ''
-            //     }, 4000)
-            // }, (error) => {
-            //     statusMessage.textContent = errorMessage
-            //     console.error(error)
-            // })
+
             postData(body)
-                .then(() => {
+                .then((response) => {
+                    if (response.status !== 200) {
+                        throw new Error('Статус нетворк нот 200')
+                    }
+                    preloader.classList.add('loaded')
+                    userName.forEach(item => item.value = '')
+                    userEmail.forEach(item => item.value = '')
+                    userPhone.forEach(item => item.value = '')
+                    userMessage.forEach(item => item.value = '')
                     statusMessage.textContent = successMessage
                         setTimeout(() => {
                             statusMessage.textContent = ''
                         }, 4000)
                 })
-                .catch(error => {
+                .catch(() => {
                         statusMessage.textContent = errorMessage
-                        console.error(error)
+                    preloader.classList.add('loaded')
                 })
         })
 
         const postData = (body) => {
-        return new Promise((resolve, reject) => {
-            const request = new XMLHttpRequest()
-            request.addEventListener('readystatechange', () => {
+            return fetch('./server.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
 
-                if (request.readyState !== 4) {
-                    return
-                }
-                if (request.status === 200) {
-                    preloader.classList.add('loaded')
-
-
-                    userName.forEach(item => item.value = '')
-                    userEmail.forEach(item => item.value = '')
-                    userPhone.forEach(item => item.value = '')
-                    userMessage.forEach(item => item.value = '')
-                    resolve()
-                } else {
-                    preloader.classList.add('loaded')
-                    reject(request.status)
-                }
             })
-
-
-            request.open('POST', './server.php')
-            request.setRequestHeader('Content-Type', 'application/json')
-
-            request.send(JSON.stringify(body))
-        });
-
         }
 
     }
