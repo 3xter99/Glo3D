@@ -31,7 +31,7 @@ const toggleMenu = () => {
         let target = event.target;
         if (target.classList.contains('close-btn')) {
             handlerMenu()
-        } else if (target.closest('.active-menu>ul>li')) {
+        } else if (target.closest('.active-menu>ul>li>a')) {
             menuAnimate(event.target.hash)
             handlerMenu()
         } else if (target.closest('.menu')) {
